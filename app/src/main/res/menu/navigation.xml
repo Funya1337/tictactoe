@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_main"
+        android:icon="@drawable/ic_menu_black_24dp"
+        android:title="Main menu" />
+    <item
+        android:id="@+id/navigation_play"
+        android:icon="@drawable/ic_play_arrow_black_24dp"
+        android:title="Play" />
+    <item
+        android:id="@+id/navigation_build"
+        android:icon="@drawable/ic_build_black_24dp"
+        android:title="Build level" />
+    <item
+        android:id="@+id/navigation_botPlay"
+        android:icon="@drawable/ic_computer_black_24dp"
+        android:title="Play with bot" />
+    <item
+        android:id="@+id/navigation_funPlay"
+        android:icon="@drawable/ic_insert_emoticon_black_24dp"
+        android:title="Fun Play" />
+</menu>
