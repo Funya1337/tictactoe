@@ -5,8 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.myapplication.components.DialogFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -15,14 +21,60 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
     private DialogFragment dialogFragment;
     private PlayFragment playFragment;
     private ElState firstPlayer = ElState.E;
+
+    Board board = new Board();
+
+    private SensorManager sm;
+
+    private float acelVal;
+    private float acelLast;
+    private float shake;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new MainMenuFragment()).commit();
+
+        sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        sm.registerListener(sensorEventListener, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+
+        acelVal = SensorManager.GRAVITY_EARTH;
+        acelLast = SensorManager.GRAVITY_EARTH;
+        shake = 0.00f;
     }
+
+    private final SensorEventListener sensorEventListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+
+            acelLast = acelVal;
+            acelVal = (float) Math.sqrt((double) (x*x + y*y + z*z ));
+            float delta = acelVal - acelLast;
+            shake = shake * 0.9f + delta;
+            if (shake > 12 && playFragment != null)
+            {
+                playFragment = new PlayFragment(firstPlayer);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_container, playFragment, "PLAY_FRAGMENT")
+                        .commit();
+                Toast toast = Toast.makeText(getApplicationContext(), "You clean the board", Toast.LENGTH_LONG);
+                toast.show();
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+    };
+
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -50,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
                             selectedFragment).commit();
-//                    playFragment = new PlayFragment();
                 return true;
                 }
             };
@@ -62,7 +113,6 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
 
     @Override
     public void onInputASent(CharSequence input) {
-//        playFragment.updateEditText(input);
         if (input == "X")
         {
             firstPlayer = ElState.X;
@@ -72,7 +122,9 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
             firstPlayer = ElState.O;
         }
         playFragment = new PlayFragment(firstPlayer);
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
-                playFragment).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_container, playFragment, "PLAY_FRAGMENT")
+                .commit();
     }
 }
