@@ -3,22 +3,18 @@ package com.example.myapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
-import android.app.Dialog;
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.myapplication.components.DialogFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DialogFragment.FragmentAListener, PlayFragment.FragmentBListener {
+    private DialogFragment dialogFragment;
+    private PlayFragment playFragment;
+    private ElState firstPlayer = ElState.E;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +33,10 @@ public class MainActivity extends AppCompatActivity {
                             selectedFragment = new MainMenuFragment();
                             break;
                         case R.id.navigation_play:
-                            selectedFragment = new PlayFragment();
+                            FragmentManager fm =  getSupportFragmentManager();
+                            DialogFragment dialogFragment = new DialogFragment();
+                            dialogFragment.show(fm, "Sample Fragment");
+                            selectedFragment = dialogFragment;
                             break;
                         case R.id.navigation_build:
                             selectedFragment = new BuildLevelFragment();
@@ -51,7 +50,29 @@ public class MainActivity extends AppCompatActivity {
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
                             selectedFragment).commit();
+//                    playFragment = new PlayFragment();
                 return true;
                 }
             };
+
+    @Override
+    public void onInputBSent(CharSequence input) {
+        dialogFragment.updateEditText(input);
+    }
+
+    @Override
+    public void onInputASent(CharSequence input) {
+//        playFragment.updateEditText(input);
+        if (input == "X")
+        {
+            firstPlayer = ElState.X;
+        }
+        else
+        {
+            firstPlayer = ElState.O;
+        }
+        playFragment = new PlayFragment(firstPlayer);
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
+                playFragment).commit();
+    }
 }
