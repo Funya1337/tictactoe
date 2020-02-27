@@ -15,9 +15,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.myapplication.components.DialogFragment;
+import com.example.myapplication.components.WinnerDialogFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity implements DialogFragment.FragmentAListener, PlayFragment.FragmentBListener {
+public class MainActivity extends AppCompatActivity implements DialogFragment.FragmentAListener, PlayFragment.FragmentBListener, PlayFragment.FragmentPlayListener, WinnerDialogFragment.WinnerDialogFragmentListener {
     private DialogFragment dialogFragment;
     private PlayFragment playFragment;
     private ElState firstPlayer = ElState.E;
@@ -54,10 +55,10 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
             float z = event.values[2];
 
             acelLast = acelVal;
-            acelVal = (float) Math.sqrt((double) (x*x + y*y + z*z ));
+            acelVal = (float) Math.sqrt((double) (x*x + y*y + z*z));
             float delta = acelVal - acelLast;
             shake = shake * 0.9f + delta;
-            if (shake > 12 && playFragment != null)
+            if (shake > 12 && playFragment != null && playFragment.isVisible())
             {
                 playFragment = new PlayFragment(firstPlayer);
                 getSupportFragmentManager()
@@ -126,5 +127,19 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
                 .beginTransaction()
                 .replace(R.id.frame_container, playFragment, "PLAY_FRAGMENT")
                 .commit();
+    }
+
+    @Override
+    public void onInputPlaySent(ElState input) {
+        System.out.println("1111");
+        FragmentManager fm =  getSupportFragmentManager();
+        com.example.myapplication.components.WinnerDialogFragment winnerDialogFragment = new WinnerDialogFragment();
+        winnerDialogFragment.show(fm, "Sample Fragment");
+        winnerDialogFragment.updateData(input);
+    }
+
+    @Override
+    public void onWinnerDialogFragmentSent(ElState input) {
+        playFragment.sendData(input);
     }
 }

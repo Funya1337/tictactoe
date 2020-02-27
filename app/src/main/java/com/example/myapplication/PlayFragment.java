@@ -1,7 +1,6 @@
 package com.example.myapplication;
 
 import android.content.Context;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +15,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.myapplication.components.DialogFragment;
+import com.example.myapplication.components.WinnerDialogFragment;
 
 public class PlayFragment extends Fragment {
     ElState turn = ElState.X;
+    private FragmentPlayListener playListener;
     private FragmentBListener listener;
     private ElState firstPlayer = ElState.E;
+    ElState winnerCheckVar = ElState.E;
 
     public PlayFragment(ElState fp) {
         firstPlayer = fp;
@@ -29,6 +31,10 @@ public class PlayFragment extends Fragment {
 
     public interface FragmentBListener {
         void onInputBSent(CharSequence input);
+    }
+
+    public interface FragmentPlayListener {
+        void onInputPlaySent(ElState input);
     }
 
     public void setFirstPlayer (CharSequence data)
@@ -67,15 +73,20 @@ public class PlayFragment extends Fragment {
                     public void onClick(View v) {
                         newBoard.setElement(indexI, indexJ, turn);
                         newBoard.print();
-                        TextView winnerText = view.findViewById(R.id.winner);
                         if (newBoard.checkForWinner() == ElState.X) {
-                            winnerText.setText("CROSS WIN");
+                            winnerCheckVar = ElState.X;
+                            ElState input = winnerCheckVar;
+                            playListener.onInputPlaySent(input);
                         }
                         if (newBoard.checkForWinner() == ElState.O) {
-                            winnerText.setText("ZERO WIN");
+                            winnerCheckVar = ElState.O;
+                            ElState input = winnerCheckVar;
+                            playListener.onInputPlaySent(input);
                         }
                         if (newBoard.checkForWinner() == ElState.N) {
-                            winnerText.setText("NO WIN");
+                            winnerCheckVar = ElState.N;
+                            ElState input = winnerCheckVar;
+                            playListener.onInputPlaySent(input);
                         }
                         button.setText(getTurnText());
                         nextTurn();
@@ -95,12 +106,9 @@ public class PlayFragment extends Fragment {
                         button_change.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                System.out.println("you click to the on click listener");
-                                Fragment selectedFragment = null;
                                 FragmentManager fm =  getFragmentManager();
-                                DialogFragment dialogFragment = new DialogFragment();
+                                com.example.myapplication.components.DialogFragment dialogFragment = new DialogFragment();
                                 dialogFragment.show(fm, "Sample Fragment");
-                                selectedFragment = dialogFragment;
                             }
                         });
                     }
@@ -112,6 +120,12 @@ public class PlayFragment extends Fragment {
     public void updateEditText(CharSequence newText) {
         setFirstPlayer(newText);
     }
+
+    public void sendData(ElState newData) {
+        System.out.println("11111");
+        winnerCheckVar = newData;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -121,11 +135,18 @@ public class PlayFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement FragmentBListener");
         }
+        if (context instanceof FragmentPlayListener) {
+            playListener = (FragmentPlayListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+            + " must implement FragmentPlayListener");
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         listener = null;
+        playListener = null;
     }
 }
