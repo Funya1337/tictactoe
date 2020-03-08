@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -14,18 +15,22 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.myapplication.components.DialogFragment;
-import com.example.myapplication.components.WinnerDialogFragment;
+import com.example.myapplication.Activities.CameraActivity;
+import com.example.myapplication.Classes.ElState;
+import com.example.myapplication.Components.BuildLevelFragment;
+import com.example.myapplication.Components.DialogFragment;
+import com.example.myapplication.Components.MainMenuFragment;
+import com.example.myapplication.Components.PlayFragment;
+import com.example.myapplication.Components.PlayWithBotFragment;
+import com.example.myapplication.Components.WinnerDialogFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements DialogFragment.FragmentAListener, PlayFragment.FragmentBListener, PlayFragment.FragmentPlayListener, WinnerDialogFragment.WinnerDialogFragmentListener {
     private DialogFragment dialogFragment;
     private PlayFragment playFragment;
     private ElState firstPlayer = ElState.E;
-
-    Board board = new Board();
-
     private SensorManager sm;
+    private boolean checker = false;
 
     private float acelVal;
     private float acelLast;
@@ -84,25 +89,29 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
                     switch (item.getItemId()) {
                         case R.id.navigation_main:
                             selectedFragment = new MainMenuFragment();
+                            transactionFunction(selectedFragment);
                             break;
                         case R.id.navigation_play:
-                            FragmentManager fm =  getSupportFragmentManager();
+                            FragmentManager fm = getSupportFragmentManager();
                             DialogFragment dialogFragment = new DialogFragment();
                             dialogFragment.show(fm, "Sample Fragment");
                             selectedFragment = dialogFragment;
+                            transactionFunction(selectedFragment);
                             break;
                         case R.id.navigation_build:
                             selectedFragment = new BuildLevelFragment();
+                            transactionFunction(selectedFragment);
                             break;
                         case R.id.navigation_botPlay:
                             selectedFragment = new PlayWithBotFragment();
+                            transactionFunction(selectedFragment);
                             break;
                         case R.id.navigation_funPlay:
-                            selectedFragment = new FunPlayFragment();
+                            checker = true;
+                            Intent intent = new Intent(MainActivity.this, CameraActivity.class);
+                            startActivity(intent);
                             break;
                     }
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
-                            selectedFragment).commit();
                 return true;
                 }
             };
@@ -110,6 +119,12 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
     @Override
     public void onInputBSent(CharSequence input) {
         dialogFragment.updateEditText(input);
+    }
+
+    public void transactionFunction(Fragment selectedFragment)
+    {
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
+                selectedFragment).commit();
     }
 
     @Override
@@ -133,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
     public void onInputPlaySent(ElState input) {
         System.out.println("1111");
         FragmentManager fm =  getSupportFragmentManager();
-        com.example.myapplication.components.WinnerDialogFragment winnerDialogFragment = new WinnerDialogFragment();
+        com.example.myapplication.Components.WinnerDialogFragment winnerDialogFragment = new WinnerDialogFragment();
         winnerDialogFragment.show(fm, "Sample Fragment");
         winnerDialogFragment.updateData(input);
     }

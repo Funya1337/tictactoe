@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.Classes;
 
 import java.util.Arrays;
 
@@ -131,7 +131,7 @@ public class Board {
         return ElState.E;
     }
 
-    void print() {
+    public void print() {
         System.out.println("--- BOARD BEGIN ---");
         for (int i=0; i< board.length; i++) {
             System.out.println(board[i][0] + " " + board[i][1] + " " + board[i][2]);

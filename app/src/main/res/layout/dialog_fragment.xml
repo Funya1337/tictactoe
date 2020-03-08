@@ -7,13 +7,6 @@
     android:padding="10dp"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Your choice"
-        android:textSize="20dp" />
-
     <GridLayout
         android:layout_height="wrap_content"
         android:layout_width="wrap_content">
@@ -64,7 +57,7 @@
         android:id="@+id/apply"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Apply" />
+        android:text="Play" />
 
     <TextView
         android:id="@+id/warning_text"

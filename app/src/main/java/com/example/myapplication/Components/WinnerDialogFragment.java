@@ -1,15 +1,13 @@
-package com.example.myapplication.components;
+package com.example.myapplication.Components;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.myapplication.ElState;
-import com.example.myapplication.PlayFragment;
+import com.example.myapplication.Classes.ElState;
 import com.example.myapplication.R;
 
 public class WinnerDialogFragment extends androidx.fragment.app.DialogFragment {

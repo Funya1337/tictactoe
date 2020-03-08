@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.Components;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,8 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.myapplication.components.DialogFragment;
-import com.example.myapplication.components.WinnerDialogFragment;
+import com.example.myapplication.Classes.Board;
+import com.example.myapplication.Classes.ElState;
+import com.example.myapplication.R;
 
 public class PlayFragment extends Fragment {
     ElState turn = ElState.X;
@@ -107,7 +107,7 @@ public class PlayFragment extends Fragment {
                             @Override
                             public void onClick(View v) {
                                 FragmentManager fm =  getFragmentManager();
-                                com.example.myapplication.components.DialogFragment dialogFragment = new DialogFragment();
+                                com.example.myapplication.Components.DialogFragment dialogFragment = new DialogFragment();
                                 dialogFragment.show(fm, "Sample Fragment");
                             }
                         });

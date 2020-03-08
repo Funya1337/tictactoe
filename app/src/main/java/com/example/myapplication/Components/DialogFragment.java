@@ -1,4 +1,4 @@
-package com.example.myapplication.components;
+package com.example.myapplication.Components;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,12 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import com.example.myapplication.ElState;
-import com.example.myapplication.PlayFragment;
 import com.example.myapplication.R;
 
 public class DialogFragment extends androidx.fragment.app.DialogFragment {
