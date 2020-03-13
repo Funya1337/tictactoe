@@ -11,7 +11,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -20,20 +19,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.myapplication.Classes.DataBaseAccess;
+import com.example.myapplication.Classes.DataBaseHelper;
+import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
-
-import org.w3c.dom.Text;
 
 public class CameraActivity extends AppCompatActivity {
     private static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
 
+    private Button btnAdd, btnViewData;
+    private EditText editText;
     Button mCaptureBtn;
     Button mGetDataBtn;
     ImageView mImageView;
     TextView mShowDataBaseData;
     EditText mEditText;
+    DataBaseHelper mDatabaseHelper;
 
     Uri image_uri;
 
@@ -41,11 +42,15 @@ public class CameraActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+        btnAdd = findViewById(R.id.button_saveData);
+        btnViewData = findViewById(R.id.button_getData);
+        editText = findViewById(R.id.editTextData);
         mImageView = findViewById(R.id.image_view);
         mCaptureBtn = findViewById(R.id.button_capture);
         mGetDataBtn = findViewById(R.id.button_getData);
         mEditText = findViewById(R.id.editTextData);
         mShowDataBaseData = findViewById(R.id.text1);
+        mDatabaseHelper = new DataBaseHelper(this);
         mCaptureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,14 +72,25 @@ public class CameraActivity extends AppCompatActivity {
                 }
             }
         });
-        mGetDataBtn.setOnClickListener(new View.OnClickListener() {
+        btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DataBaseAccess dataBaseAccess = DataBaseAccess.getInstance(getApplicationContext());
-                dataBaseAccess.open();
-                String address = dataBaseAccess.getAddress();
-                mShowDataBaseData.setText(address);
-                System.out.println(address);
+                String newEntry = editText.getText().toString();
+                if (editText.length() != 0) {
+                    AddData(newEntry);
+                    editText.setText("");
+                } else {
+                    toastMessage("You must put something in the text field!");
+                }
+
+            }
+        });
+
+        btnViewData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CameraActivity.this, ListDataActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -113,5 +129,17 @@ public class CameraActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             mImageView.setImageURI(image_uri);
         }
+    }
+    public void AddData(String newEntry) {
+        boolean insertData = mDatabaseHelper.addData(newEntry);
+
+        if (insertData) {
+            toastMessage("Data Successfully Inserted!");
+        } else {
+            toastMessage("Something went wrong");
+        }
+    }
+    private void toastMessage(String message){
+        Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
     }
 }
