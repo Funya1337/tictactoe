@@ -21,31 +21,31 @@
         android:layout_centerHorizontal="true"
         android:text="Take a picture!"/>
 
-    <EditText
-        android:id="@+id/editTextData"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="data to save"/>
+<!--    <EditText-->
+<!--        android:id="@+id/editTextData"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="data to save"/>-->
 
-    <Button
-        android:id="@+id/button_saveData"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Save data!"/>
+<!--    <Button-->
+<!--        android:id="@+id/button_saveData"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:text="Save data!"/>-->
 
-    <Button
-        android:id="@+id/button_getData"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Get data!"/>
-    
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/text1"/>
+<!--    <Button-->
+<!--        android:id="@+id/button_getData"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:text="Get data!"/>-->
+
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/text1"/>-->
     
 </LinearLayout>

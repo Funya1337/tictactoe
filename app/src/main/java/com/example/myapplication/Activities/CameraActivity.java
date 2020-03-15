@@ -5,9 +5,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +24,8 @@ import android.widget.Toast;
 import com.example.myapplication.Classes.DataBaseHelper;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
+
+import java.util.ArrayList;
 
 public class CameraActivity extends AppCompatActivity {
     private static final int PERMISSION_CODE = 1000;
@@ -38,18 +42,19 @@ public class CameraActivity extends AppCompatActivity {
 
     Uri image_uri;
 
+    @SuppressLint("CutPasteId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-        btnAdd = findViewById(R.id.button_saveData);
-        btnViewData = findViewById(R.id.button_getData);
-        editText = findViewById(R.id.editTextData);
+//        btnAdd = findViewById(R.id.button_saveData);
+//        btnViewData = findViewById(R.id.button_getData);
+//        editText = findViewById(R.id.editTextData);
         mImageView = findViewById(R.id.image_view);
         mCaptureBtn = findViewById(R.id.button_capture);
-        mGetDataBtn = findViewById(R.id.button_getData);
-        mEditText = findViewById(R.id.editTextData);
-        mShowDataBaseData = findViewById(R.id.text1);
+//        mGetDataBtn = findViewById(R.id.button_getData);
+//        mEditText = findViewById(R.id.editTextData);
+//        mShowDataBaseData = findViewById(R.id.text1);
         mDatabaseHelper = new DataBaseHelper(this);
         mCaptureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,27 +77,28 @@ public class CameraActivity extends AppCompatActivity {
                 }
             }
         });
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String newEntry = editText.getText().toString();
-                if (editText.length() != 0) {
-                    AddData(newEntry);
-                    editText.setText("");
-                } else {
-                    toastMessage("You must put something in the text field!");
-                }
-
-            }
-        });
-
-        btnViewData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CameraActivity.this, ListDataActivity.class);
-                startActivity(intent);
-            }
-        });
+//        btnAdd.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String newEntry = editText.getText().toString();
+//                if (editText.length() != 0) {
+//                    AddData(newEntry);
+//                    editText.setText("");
+//                } else {
+//                    toastMessage("You must put something in the text field!");
+//                }
+//
+//            }
+//        });
+//
+//        btnViewData.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                monitorData();
+//                Intent intent = new Intent(CameraActivity.this, ListDataActivity.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 
     private void openCamera() {
@@ -128,6 +134,8 @@ public class CameraActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             mImageView.setImageURI(image_uri);
+            AddData(image_uri.toString());
+            monitorData();
         }
     }
     public void AddData(String newEntry) {
@@ -138,6 +146,14 @@ public class CameraActivity extends AppCompatActivity {
         } else {
             toastMessage("Something went wrong");
         }
+    }
+    public void monitorData() {
+        ArrayList<String> listData = new ArrayList<>();
+        Cursor data = mDatabaseHelper.getData();
+        while(data.moveToNext()){
+            listData.add("\n" + data.getString(1));
+        }
+        System.out.println(listData.toString());
     }
     private void toastMessage(String message){
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
