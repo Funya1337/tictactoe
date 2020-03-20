@@ -21,6 +21,14 @@
         android:layout_centerHorizontal="true"
         android:text="Take a picture!"/>
 
+    <Button
+        android:id="@+id/button_play"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Start play with 2 photos"/>
+
 <!--    <EditText-->
 <!--        android:id="@+id/editTextData"-->
 <!--        android:layout_width="match_parent"-->

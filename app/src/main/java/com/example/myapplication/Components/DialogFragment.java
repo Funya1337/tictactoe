@@ -14,6 +14,7 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
     public int checker = 10;
     private FragmentAListener listener;
     private Button playerButton1;
+    private Button statusBtn;
 
     public interface FragmentAListener {
         void onInputASent(CharSequence input);
@@ -23,6 +24,7 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.dialog_fragment, container, false);
         playerButton1 = rootView.findViewById(R.id.button_player1);
+        statusBtn = rootView.findViewById(R.id.statusBtn);
         final Button playerButton2 = rootView.findViewById(R.id.button_player2);
         final TextView warningText = rootView.findViewById(R.id.warning_text);
         Button dismiss = rootView.findViewById(R.id.apply);
@@ -75,6 +77,12 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
                     checker = 1;
                     playerButton2.setText("0" + "");
                 }
+            }
+        });
+        statusBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
         return rootView;

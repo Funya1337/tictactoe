@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -32,37 +34,42 @@
     <GridLayout
         android:layout_height="wrap_content"
         android:layout_width="wrap_content">
-        <Button
-            android:id="@+id/button_player1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:layout_centerVertical="true"
-            android:text="Choose" />
 
-        <Button
-            android:id="@+id/button_player2"
+        <ImageView
+            android:id="@+id/image1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginLeft="20dp"
             android:layout_centerVertical="true"
-            android:text="Choose" />
+            android:layout_marginRight="75dp"
+            app:srcCompat="@drawable/ic_build_black_24dp"
+            tools:ignore="VectorDrawableCompat" />
+
+        <ImageView
+            android:id="@+id/image2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="0dp"
+            app:srcCompat="@drawable/ic_computer_black_24dp"
+            tools:ignore="VectorDrawableCompat" />
+
     </GridLayout>
 
     <Button
-        android:id="@+id/apply"
+        android:id="@+id/changeBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Change values" />
+
+    <Button
+        android:id="@+id/applyBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Play" />
-    <Button
-        android:id="@+id/statusBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Status" />
 
     <TextView
         android:id="@+id/warning_text"

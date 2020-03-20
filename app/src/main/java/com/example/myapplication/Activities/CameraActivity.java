@@ -10,6 +10,8 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,18 +24,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.Classes.DataBaseHelper;
-import com.example.myapplication.MainActivity;
+import com.example.myapplication.Components.CameraDialogFragment;
 import com.example.myapplication.R;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class CameraActivity extends AppCompatActivity {
     private static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
 
+    private CameraDialogFragment cameraDialogFragment;
     private Button btnAdd, btnViewData;
     private EditText editText;
-    Button mCaptureBtn;
+    Button mCaptureBtn, mPlayBtn;
     Button mGetDataBtn;
     ImageView mImageView;
     TextView mShowDataBaseData;
@@ -52,6 +61,7 @@ public class CameraActivity extends AppCompatActivity {
 //        editText = findViewById(R.id.editTextData);
         mImageView = findViewById(R.id.image_view);
         mCaptureBtn = findViewById(R.id.button_capture);
+        mPlayBtn = findViewById(R.id.button_play);
 //        mGetDataBtn = findViewById(R.id.button_getData);
 //        mEditText = findViewById(R.id.editTextData);
 //        mShowDataBaseData = findViewById(R.id.text1);
@@ -75,6 +85,13 @@ public class CameraActivity extends AppCompatActivity {
                 {
                     openCamera();
                 }
+            }
+        });
+        mPlayBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CameraActivity.this, CameraActivityForFragments.class);
+                startActivity(intent);
             }
         });
 //        btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -133,9 +150,8 @@ public class CameraActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            mImageView.setImageURI(image_uri);
             AddData(image_uri.toString());
-            monitorData();
+            mImageView.setImageURI(Uri.parse(monitorData()));
         }
     }
     public void AddData(String newEntry) {
@@ -147,13 +163,13 @@ public class CameraActivity extends AppCompatActivity {
             toastMessage("Something went wrong");
         }
     }
-    public void monitorData() {
+    public String monitorData() {
         ArrayList<String> listData = new ArrayList<>();
         Cursor data = mDatabaseHelper.getData();
         while(data.moveToNext()){
             listData.add("\n" + data.getString(1));
         }
-        System.out.println(listData.toString());
+        return listData.get(0);
     }
     private void toastMessage(String message){
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show();

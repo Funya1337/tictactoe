@@ -146,7 +146,6 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
 
     @Override
     public void onInputPlaySent(ElState input) {
-        System.out.println("1111");
         FragmentManager fm =  getSupportFragmentManager();
         com.example.myapplication.Components.WinnerDialogFragment winnerDialogFragment = new WinnerDialogFragment();
         winnerDialogFragment.show(fm, "Sample Fragment");
