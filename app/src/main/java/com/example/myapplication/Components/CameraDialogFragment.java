@@ -1,7 +1,9 @@
 package com.example.myapplication.Components;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -23,6 +25,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.myapplication.Classes.DataBaseHelper;
 import com.example.myapplication.R;
@@ -41,10 +45,28 @@ public class CameraDialogFragment extends Fragment {
     private static final int PERMISSION_CODE = 1000;
     private ImageView image1, image2;
     private DataBaseHelper mDatabaseHelper;
+    private Button playBtn;
     private String lastEl;
     private String preLastEl;
     private boolean checker = false;
+    private boolean checkToLoadFragment = false;
     private Button changeValuesBtn;
+
+    public interface onCameraDialogListener {
+        public void loadPlayFragmentEvent(boolean checker);
+    }
+
+    onCameraDialogListener cameraDialogListener;
+
+    @Override
+    public void onAttach(@NonNull Activity activity) {
+        super.onAttach(activity);
+        try {
+            cameraDialogListener = (onCameraDialogListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement onSomeEventListener");
+        }
+    }
 
     @Nullable
     @Override
@@ -52,6 +74,7 @@ public class CameraDialogFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.camera_dialog_fragment, container, false);
         image1 = rootView.findViewById(R.id.image1);
         image2 = rootView.findViewById(R.id.image2);
+        playBtn = rootView.findViewById(R.id.applyBtn);
         changeValuesBtn = rootView.findViewById(R.id.changeBtn);
         mDatabaseHelper = new DataBaseHelper(getActivity().getApplicationContext());
         ArrayList<String> listData = new ArrayList<>();
@@ -74,6 +97,12 @@ public class CameraDialogFragment extends Fragment {
                 {
                     setImage1();
                 }
+            }
+        });
+        playBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cameraDialogListener.loadPlayFragmentEvent(checker);
             }
         });
         return rootView;

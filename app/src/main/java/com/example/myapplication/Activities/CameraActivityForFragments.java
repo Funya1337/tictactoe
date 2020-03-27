@@ -8,10 +8,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.Classes.DataBaseHelper;
 import com.example.myapplication.Components.CameraDialogFragment;
+import com.example.myapplication.Components.CameraPlayFragment;
 import com.example.myapplication.R;
 
-public class CameraActivityForFragments extends AppCompatActivity {
+public class CameraActivityForFragments extends AppCompatActivity implements CameraDialogFragment.onCameraDialogListener {
     private CameraDialogFragment cameraDialogFragment;
+    private CameraPlayFragment cameraPlayFragment;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +22,14 @@ public class CameraActivityForFragments extends AppCompatActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.camera_frame_container, cameraDialogFragment)
+                .commit();
+    }
+    @Override
+    public void loadPlayFragmentEvent(boolean checker) {
+        cameraPlayFragment = new CameraPlayFragment(checker);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.camera_frame_container, cameraPlayFragment)
                 .commit();
     }
 }
