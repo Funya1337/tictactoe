@@ -46,6 +46,7 @@ public class CameraPlayFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.camera_play_fragment, container, false);
         getData();
+        System.out.println(checkerInFragment);
         for (int i = 0; i < newBoard.boardSize; i++) {
             for (int j=0; j< newBoard.boardSize; j++) {
                 final int indexI = i;

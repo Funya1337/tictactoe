@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
-import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -15,19 +14,23 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.myapplication.Activities.CameraActivity;
 import com.example.myapplication.Classes.ElState;
 import com.example.myapplication.Components.BuildLevelFragment;
+import com.example.myapplication.Components.CameraDialogFragment;
+import com.example.myapplication.Components.CameraPlayFragment;
 import com.example.myapplication.Components.DialogFragment;
+import com.example.myapplication.Components.FunPlayFragment;
 import com.example.myapplication.Components.MainMenuFragment;
 import com.example.myapplication.Components.PlayFragment;
 import com.example.myapplication.Components.PlayWithBotFragment;
 import com.example.myapplication.Components.WinnerDialogFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity implements DialogFragment.FragmentAListener, PlayFragment.FragmentBListener, PlayFragment.FragmentPlayListener, WinnerDialogFragment.WinnerDialogFragmentListener {
+public class MainActivity extends AppCompatActivity implements DialogFragment.FragmentAListener, PlayFragment.FragmentBListener, PlayFragment.FragmentPlayListener, WinnerDialogFragment.WinnerDialogFragmentListener, FunPlayFragment.onFunPlayFragmentListener, CameraDialogFragment.onCameraDialogFragmentListener {
     private DialogFragment dialogFragment;
     private PlayFragment playFragment;
+    private CameraPlayFragment cameraPlayFragment;
+    private CameraDialogFragment cameraDialogFragment;
     private ElState firstPlayer = ElState.E;
     private SensorManager sm;
     private boolean checker = false;
@@ -108,8 +111,8 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
                             break;
                         case R.id.navigation_funPlay:
                             checker = true;
-                            Intent intent = new Intent(MainActivity.this, CameraActivity.class);
-                            startActivity(intent);
+                            selectedFragment = new FunPlayFragment();
+                            transactionFunction(selectedFragment);
                             break;
                     }
                 return true;
@@ -155,5 +158,24 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
     @Override
     public void onWinnerDialogFragmentSent(ElState input) {
         playFragment.sendData(input);
+    }
+
+    @Override
+    public void loadDialogPlayFragment() {
+        System.out.println("11111");
+        cameraDialogFragment = new CameraDialogFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_container, cameraDialogFragment)
+                .commit();
+    }
+
+    @Override
+    public void loadCameraPlayFragment(boolean checker) {
+        cameraPlayFragment = new CameraPlayFragment(checker);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_container, cameraPlayFragment)
+                .commit();
     }
 }

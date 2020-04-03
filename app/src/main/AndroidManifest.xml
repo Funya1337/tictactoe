@@ -17,8 +17,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.CameraActivity"/>
-        <activity android:name=".Activities.CameraActivityForFragments"/>
         <activity android:name=".Activities.ListDataActivity"/>
         <activity android:name=".Activities.EditDataActivity"/>
         <activity android:name=".MainActivity">
