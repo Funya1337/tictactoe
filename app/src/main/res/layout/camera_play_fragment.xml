@@ -43,65 +43,29 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <Button
+        <ImageView
             android:id="@+id/button_0_0"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@drawable/ic_play_arrow_black_24dp"
-            android:textColor="#000"
-            android:textSize="60sp"
-            app:backgroundTint="#00D3CFCF"/>
+            android:src="@drawable/ic_image_black_24dp" />
 
         <ImageView
-            android:id="@+id/imageViewbtn_0_0"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_image_black_24dp"
-            android:visibility="gone"/>
-
-        <Button
             android:id="@+id/button_0_1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@drawable/ic_play_arrow_black_24dp"
-            android:textColor="#000"
-            android:textSize="60sp"
-            app:backgroundTint="#00D3CFCF"/>
+            android:src="@drawable/ic_image_black_24dp" />
 
         <ImageView
-            android:id="@+id/imageViewbtn_0_1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_image_black_24dp"
-            android:visibility="gone"/>
-
-        <Button
             android:id="@+id/button_0_2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@drawable/ic_play_arrow_black_24dp"
-            android:textColor="#000"
-            android:textSize="60sp"
-            app:backgroundTint="#00D3CFCF"/>
-
-        <ImageView
-            android:id="@+id/imageViewbtn_0_2"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_image_black_24dp"
-            android:visibility="gone"/>
+            android:src="@drawable/ic_image_black_24dp" />
 
     </LinearLayout>
 
@@ -110,65 +74,29 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <Button
+        <ImageView
             android:id="@+id/button_1_0"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@drawable/ic_play_arrow_black_24dp"
-            android:textColor="#000"
-            android:textSize="60sp"
-            app:backgroundTint="#00D3CFCF"/>
+            android:src="@drawable/ic_image_black_24dp"/>
 
         <ImageView
-            android:id="@+id/imageViewbtn_1_0"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_image_black_24dp"
-            android:visibility="gone"/>
-
-        <Button
             android:id="@+id/button_1_1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@drawable/ic_play_arrow_black_24dp"
-            android:textColor="#000"
-            android:textSize="60sp"
-            app:backgroundTint="#00D3CFCF"/>
+            android:src="@drawable/ic_image_black_24dp"/>
 
         <ImageView
-            android:id="@+id/imageViewbtn_1_1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_image_black_24dp"
-            android:visibility="gone"/>
-
-        <Button
             android:id="@+id/button_1_2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@drawable/ic_play_arrow_black_24dp"
-            android:textColor="#000"
-            android:textSize="60sp"
-            app:backgroundTint="#00D3CFCF"/>
-
-        <ImageView
-            android:id="@+id/imageViewbtn_1_2"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_image_black_24dp"
-            android:visibility="gone"/>
+            android:src="@drawable/ic_image_black_24dp"/>
 
     </LinearLayout>
 
@@ -178,65 +106,29 @@
         android:layout_weight="1"
         android:layout_marginBottom="80dp">
 
-        <Button
+        <ImageView
             android:id="@+id/button_2_0"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@drawable/ic_play_arrow_black_24dp"
-            android:textColor="#000"
-            android:textSize="60sp"
-            app:backgroundTint="#00D3CFCF"/>
+            android:src="@drawable/ic_image_black_24dp" />
 
         <ImageView
-            android:id="@+id/imageViewbtn_2_0"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_image_black_24dp"
-            android:visibility="gone"/>
-
-        <Button
             android:id="@+id/button_2_1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@drawable/ic_play_arrow_black_24dp"
-            android:textColor="#000"
-            android:textSize="60sp"
-            app:backgroundTint="#00D3CFCF"/>
+            android:src="@drawable/ic_image_black_24dp" />
 
         <ImageView
-            android:id="@+id/imageViewbtn_2_1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_image_black_24dp"
-            android:visibility="gone"/>
-
-        <Button
             android:id="@+id/button_2_2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@drawable/ic_play_arrow_black_24dp"
-            android:textColor="#000"
-            android:textSize="60sp"
-            app:backgroundTint="#00D3CFCF"/>
-
-        <ImageView
-            android:id="@+id/imageViewbtn_2_2"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_image_black_24dp"
-            android:visibility="gone"/>
+            android:src="@drawable/ic_image_black_24dp" />
 
     </LinearLayout>
 </LinearLayout>
