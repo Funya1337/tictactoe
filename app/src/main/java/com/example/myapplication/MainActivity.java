@@ -26,7 +26,7 @@ import com.example.myapplication.Components.PlayWithBotFragment;
 import com.example.myapplication.Components.WinnerDialogFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity implements DialogFragment.FragmentAListener, PlayFragment.FragmentBListener, PlayFragment.FragmentPlayListener, WinnerDialogFragment.WinnerDialogFragmentListener, FunPlayFragment.onFunPlayFragmentListener, CameraDialogFragment.onCameraDialogFragmentListener {
+public class MainActivity extends AppCompatActivity implements DialogFragment.FragmentAListener, PlayFragment.FragmentBListener, PlayFragment.FragmentPlayListener, WinnerDialogFragment.WinnerDialogFragmentListener, FunPlayFragment.onFunPlayFragmentListener, CameraDialogFragment.onCameraDialogFragmentListener, CameraPlayFragment.onCameraPlayFragmentListener {
     private DialogFragment dialogFragment;
     private PlayFragment playFragment;
     private CameraPlayFragment cameraPlayFragment;
@@ -162,7 +162,6 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
 
     @Override
     public void loadDialogPlayFragment() {
-        System.out.println("11111");
         cameraDialogFragment = new CameraDialogFragment();
         getSupportFragmentManager()
                 .beginTransaction()
@@ -177,5 +176,13 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
                 .beginTransaction()
                 .replace(R.id.frame_container, cameraPlayFragment)
                 .commit();
+    }
+
+    @Override
+    public void loadWinnerDialogFragment(ElState winnerCheckVar) {
+        FragmentManager fm =  getSupportFragmentManager();
+        com.example.myapplication.Components.WinnerDialogFragment winnerDialogFragment = new WinnerDialogFragment();
+        winnerDialogFragment.show(fm, "Sample Fragment");
+        winnerDialogFragment.updateData(winnerCheckVar);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.myapplication.Components;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,12 +13,10 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.myapplication.Classes.Board;
 import com.example.myapplication.Classes.DataBaseHelper;
-import com.example.myapplication.Classes.DialogNotifier;
 import com.example.myapplication.Classes.ElState;
 import com.example.myapplication.R;
 import com.squareup.picasso.Picasso;
@@ -41,6 +40,22 @@ public class CameraPlayFragment extends Fragment {
     private void nextTurn()
     {
         checkerInFragment = !checkerInFragment;
+    }
+
+    public interface onCameraPlayFragmentListener {
+        void loadWinnerDialogFragment(ElState winnerCheckVar);
+    }
+
+    CameraPlayFragment.onCameraPlayFragmentListener onCameraPlayFragmentListener;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            onCameraPlayFragmentListener = (CameraPlayFragment.onCameraPlayFragmentListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement onSomeEventListener");
+        }
     }
 
     private String getTurnImage() {
@@ -83,14 +98,17 @@ public class CameraPlayFragment extends Fragment {
                         if (newBoard.checkForWinner() == ElState.X) {
                             winnerCheckVar = ElState.X;
                             System.out.println(winnerCheckVar + " IS WINNER");
+                            onCameraPlayFragmentListener.loadWinnerDialogFragment(winnerCheckVar);
                         }
                         if (newBoard.checkForWinner() == ElState.O) {
                             winnerCheckVar = ElState.O;
                             System.out.println(winnerCheckVar + " IS WINNER");
+                            onCameraPlayFragmentListener.loadWinnerDialogFragment(winnerCheckVar);
                         }
                         if (newBoard.checkForWinner() == ElState.N) {
                             winnerCheckVar = ElState.N;
                             System.out.println(winnerCheckVar + " IS WINNER");
+                            onCameraPlayFragmentListener.loadWinnerDialogFragment(winnerCheckVar);
                         }
                         Picasso.get()
                                 .load(Uri.parse(getTurnImage()))
