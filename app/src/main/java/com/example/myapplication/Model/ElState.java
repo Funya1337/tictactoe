@@ -1,4 +1,4 @@
-package com.example.myapplication.Classes;
+package com.example.myapplication.Model;
 
 public enum ElState {
     E,

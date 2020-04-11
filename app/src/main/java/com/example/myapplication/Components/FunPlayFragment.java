@@ -20,7 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.myapplication.Classes.DataBaseHelper;
+import com.example.myapplication.Repository.DataBaseHelper;
 import com.example.myapplication.R;
 
 public class FunPlayFragment extends Fragment {
@@ -114,6 +114,7 @@ public class FunPlayFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        System.out.println(mImageUri);
         AddData(mImageUri.toString());
         mImageView.setImageURI(mImageUri);
     }

@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +14,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.myapplication.Classes.ElState;
+import com.example.myapplication.Model.ElState;
 import com.example.myapplication.Components.BuildLevelFragment;
 import com.example.myapplication.Components.CameraDialogFragment;
 import com.example.myapplication.Components.CameraPlayFragment;
@@ -24,6 +24,7 @@ import com.example.myapplication.Components.MainMenuFragment;
 import com.example.myapplication.Components.PlayFragment;
 import com.example.myapplication.Components.PlayWithBotFragment;
 import com.example.myapplication.Components.WinnerDialogFragment;
+import com.example.myapplication.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements DialogFragment.FragmentAListener, PlayFragment.FragmentBListener, PlayFragment.FragmentPlayListener, WinnerDialogFragment.WinnerDialogFragmentListener, FunPlayFragment.onFunPlayFragmentListener, CameraDialogFragment.onCameraDialogFragmentListener, CameraPlayFragment.onCameraPlayFragmentListener {
@@ -76,6 +77,15 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
                 Toast toast = Toast.makeText(getApplicationContext(), "You clean the board", Toast.LENGTH_LONG);
                 toast.show();
             }
+            if (shake > 12 && cameraPlayFragment != null && cameraPlayFragment.isVisible()) {
+                cameraPlayFragment = new CameraPlayFragment(checker);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_container, cameraPlayFragment, "CAMERA_PLAY_FRAGMENT")
+                        .commit();
+                Toast toast = Toast.makeText(getApplicationContext(), "You clean the board", Toast.LENGTH_LONG);
+                toast.show();
+            }
         }
 
         @Override
@@ -83,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
 
         }
     };
-
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override

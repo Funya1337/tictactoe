@@ -5,28 +5,24 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.CameraActivity">
+    android:padding="10dp">
 
     <ImageView
         android:id="@+id/image_view"
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:src="@drawable/ic_image_black_24dp"/>
+        android:src="@drawable/ic_image_black_24dp" />
 
     <Button
         android:id="@+id/button_capture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:text="Take a picture!"/>
 
     <Button
         android:id="@+id/button_play"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:text="Start play with 2 photos"/>
 
 </LinearLayout>

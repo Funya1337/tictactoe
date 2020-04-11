@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -15,9 +17,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.myapplication.Classes.Board;
-import com.example.myapplication.Classes.DataBaseHelper;
-import com.example.myapplication.Classes.ElState;
+import com.example.myapplication.Model.Board;
+import com.example.myapplication.Repository.DataBaseHelper;
+import com.example.myapplication.Model.ElState;
 import com.example.myapplication.R;
 import com.squareup.picasso.Picasso;
 
@@ -93,6 +95,8 @@ public class CameraPlayFragment extends Fragment {
                 final ImageView imageView = rootView.findViewById(getResources().getIdentifier(buttonId, "id", getActivity().getPackageName()));
                 imageView.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
+                        Animation animationUtils = AnimationUtils.loadAnimation(getContext(), R.anim.shake_animation);
+                        imageView.startAnimation(animationUtils);
                         newBoard.setElement(indexI, indexJ, turn);
                         newBoard.print();
                         if (newBoard.checkForWinner() == ElState.X) {

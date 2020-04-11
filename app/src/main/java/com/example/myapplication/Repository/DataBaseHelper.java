@@ -1,4 +1,4 @@
-package com.example.myapplication.Classes;
+package com.example.myapplication.Repository;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -27,7 +27,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP IF TABLE EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
 

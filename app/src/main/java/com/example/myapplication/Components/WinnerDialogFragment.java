@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.myapplication.Classes.ElState;
+import com.example.myapplication.Model.ElState;
 import com.example.myapplication.R;
 
 public class WinnerDialogFragment extends androidx.fragment.app.DialogFragment {
