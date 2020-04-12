@@ -10,8 +10,20 @@
     <ImageView
         android:id="@+id/image_view"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="300dp"
         android:src="@drawable/ic_image_black_24dp" />
+
+    <EditText
+        android:id="@+id/player1_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="First player name" />
+
+    <EditText
+        android:id="@+id/player2_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Second player name" />
 
     <Button
         android:id="@+id/button_capture"
@@ -23,6 +35,5 @@
         android:id="@+id/button_play"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Start play with 2 photos"/>
-
+        android:text="Start play"/>
 </LinearLayout>

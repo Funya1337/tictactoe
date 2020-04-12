@@ -15,19 +15,19 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.myapplication.Model.ElState;
-import com.example.myapplication.Components.BuildLevelFragment;
-import com.example.myapplication.Components.CameraDialogFragment;
-import com.example.myapplication.Components.CameraPlayFragment;
-import com.example.myapplication.Components.DialogFragment;
-import com.example.myapplication.Components.FunPlayFragment;
-import com.example.myapplication.Components.MainMenuFragment;
-import com.example.myapplication.Components.PlayFragment;
-import com.example.myapplication.Components.PlayWithBotFragment;
-import com.example.myapplication.Components.WinnerDialogFragment;
+import com.example.myapplication.Fragments.BuildLevelFragment;
+import com.example.myapplication.Fragments.CameraDialogFragment;
+import com.example.myapplication.Fragments.CameraPlayFragment;
+import com.example.myapplication.Fragments.DialogFragment;
+import com.example.myapplication.Fragments.FunPlayFragment;
+import com.example.myapplication.Fragments.MainMenuFragment;
+import com.example.myapplication.Fragments.PlayFragment;
+import com.example.myapplication.Fragments.PlayWithBotFragment;
+import com.example.myapplication.Fragments.WinnerDialogFragment;
 import com.example.myapplication.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity implements DialogFragment.FragmentAListener, PlayFragment.FragmentBListener, PlayFragment.FragmentPlayListener, WinnerDialogFragment.WinnerDialogFragmentListener, FunPlayFragment.onFunPlayFragmentListener, CameraDialogFragment.onCameraDialogFragmentListener, CameraPlayFragment.onCameraPlayFragmentListener {
+public class MainActivity extends AppCompatActivity implements DialogFragment.FragmentAListener, PlayFragment.FragmentBListener, PlayFragment.FragmentPlayListener, WinnerDialogFragment.WinnerDialogFragmentListener, FunPlayFragment.onFunPlayFragmentListener, CameraDialogFragment.onCameraDialogFragmentListener, CameraPlayFragment.onCameraPlayFragmentListener, FunPlayFragment.onFunPlayFragmentListenerA{
     private DialogFragment dialogFragment;
     private PlayFragment playFragment;
     private CameraPlayFragment cameraPlayFragment;
@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
     private ElState firstPlayer = ElState.E;
     private SensorManager sm;
     private boolean checker = false;
+    private String name1;
+    private String name2;
 
     private float acelVal;
     private float acelLast;
@@ -157,9 +159,9 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
     }
 
     @Override
-    public void onInputPlaySent(ElState input) {
+    public void onInputPlaySent(ElState input, int checkForWinnerFragment) {
         FragmentManager fm =  getSupportFragmentManager();
-        com.example.myapplication.Components.WinnerDialogFragment winnerDialogFragment = new WinnerDialogFragment();
+        com.example.myapplication.Fragments.WinnerDialogFragment winnerDialogFragment = new WinnerDialogFragment(checkForWinnerFragment);
         winnerDialogFragment.show(fm, "Sample Fragment");
         winnerDialogFragment.updateData(input);
     }
@@ -188,10 +190,32 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
     }
 
     @Override
-    public void loadWinnerDialogFragment(ElState winnerCheckVar) {
+    public void loadWinnerDialogFragment(ElState winnerCheckVar, int checkForWinnerFragment) {
         FragmentManager fm =  getSupportFragmentManager();
-        com.example.myapplication.Components.WinnerDialogFragment winnerDialogFragment = new WinnerDialogFragment();
+        com.example.myapplication.Fragments.WinnerDialogFragment winnerDialogFragment = new WinnerDialogFragment(checkForWinnerFragment);
         winnerDialogFragment.show(fm, "Sample Fragment");
         winnerDialogFragment.updateData(winnerCheckVar);
+    }
+
+    public String getName1() {
+        return name1;
+    }
+
+    public String getName2() {
+        return name2;
+    }
+
+    public void assignFirstName(String name) {
+        name1 = name;
+    }
+
+    public void assignSecondName(String name) {
+        name2 = name;
+    }
+
+    @Override
+    public void sendData(String firstName, String secondName) {
+        assignFirstName(firstName);
+        assignSecondName(secondName);
     }
 }

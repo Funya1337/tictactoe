@@ -1,4 +1,4 @@
-package com.example.myapplication.Components;
+package com.example.myapplication.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.myapplication.Activities.MainActivity;
 import com.example.myapplication.Model.Board;
 import com.example.myapplication.Model.ElState;
 import com.example.myapplication.R;
@@ -26,6 +24,7 @@ public class PlayFragment extends Fragment {
     private FragmentPlayListener playListener;
     private FragmentBListener listener;
     private ElState firstPlayer = ElState.E;
+    private int checkForWinnerFragment = 0;
     ElState winnerCheckVar = ElState.E;
 
     public PlayFragment(ElState fp) {
@@ -38,7 +37,7 @@ public class PlayFragment extends Fragment {
     }
 
     public interface FragmentPlayListener {
-        void onInputPlaySent(ElState input);
+        void onInputPlaySent(ElState input, int checkForWinnerFragment);
     }
 
     public void setFirstPlayer (CharSequence data)
@@ -82,17 +81,17 @@ public class PlayFragment extends Fragment {
                         if (newBoard.checkForWinner() == ElState.X) {
                             winnerCheckVar = ElState.X;
                             ElState input = winnerCheckVar;
-                            playListener.onInputPlaySent(input);
+                            playListener.onInputPlaySent(input, checkForWinnerFragment);
                         }
                         if (newBoard.checkForWinner() == ElState.O) {
                             winnerCheckVar = ElState.O;
                             ElState input = winnerCheckVar;
-                            playListener.onInputPlaySent(input);
+                            playListener.onInputPlaySent(input, checkForWinnerFragment);
                         }
                         if (newBoard.checkForWinner() == ElState.N) {
                             winnerCheckVar = ElState.N;
                             ElState input = winnerCheckVar;
-                            playListener.onInputPlaySent(input);
+                            playListener.onInputPlaySent(input, checkForWinnerFragment);
                         }
                         button.setText(getTurnText());
                         nextTurn();
@@ -113,7 +112,7 @@ public class PlayFragment extends Fragment {
                             @Override
                             public void onClick(View v) {
                                 FragmentManager fm =  getFragmentManager();
-                                com.example.myapplication.Components.DialogFragment dialogFragment = new DialogFragment();
+                                com.example.myapplication.Fragments.DialogFragment dialogFragment = new DialogFragment();
                                 dialogFragment.show(fm, "Sample Fragment");
                             }
                         });

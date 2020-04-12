@@ -1,18 +1,21 @@
-package com.example.myapplication.Components;
+package com.example.myapplication.Fragments;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.myapplication.Activities.MainActivity;
 import com.example.myapplication.Repository.DataBaseHelper;
 import com.example.myapplication.R;
 import com.squareup.picasso.Picasso;
@@ -24,6 +27,7 @@ public class CameraDialogFragment extends Fragment {
     private static final int PERMISSION_CODE = 1000;
     private ImageView image1, image2;
     private DataBaseHelper mDatabaseHelper;
+    private TextView mPlayerTitle1, mPlayerTitle2;
     private Button playBtn;
     private String lastEl;
     private String preLastEl;
@@ -50,10 +54,16 @@ public class CameraDialogFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.camera_dialog_fragment, container, false);
+        String name1 = ((MainActivity) getActivity()).getName1();
+        String name2 = ((MainActivity) getActivity()).getName2();
         image1 = rootView.findViewById(R.id.image1);
         image2 = rootView.findViewById(R.id.image2);
+        mPlayerTitle1 = rootView.findViewById(R.id.player1_title);
+        mPlayerTitle2 = rootView.findViewById(R.id.player2_title);
         playBtn = rootView.findViewById(R.id.applyBtn);
         changeValuesBtn = rootView.findViewById(R.id.changeBtn);
+        mPlayerTitle1.setText(name1);
+        mPlayerTitle2.setText(name2);
         mDatabaseHelper = new DataBaseHelper(getActivity().getApplicationContext());
         ArrayList<String> listData = new ArrayList<>();
         Cursor data1 = mDatabaseHelper.getData();

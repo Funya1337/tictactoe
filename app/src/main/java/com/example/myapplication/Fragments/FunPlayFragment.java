@@ -1,4 +1,4 @@
-package com.example.myapplication.Components;
+package com.example.myapplication.Fragments;
 
 import android.Manifest;
 import android.content.ContentValues;
@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ public class FunPlayFragment extends Fragment {
     private static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
     private Button mCaptureBtn, mPlayBtn;
+    private EditText mFirstPlayerName, mSecondPlayerName;
     private ImageView mImageView;
     private DataBaseHelper mDatabaseHelper;
     private Uri mImageUri;
@@ -36,13 +38,19 @@ public class FunPlayFragment extends Fragment {
         void loadDialogPlayFragment();
     }
 
+    public interface onFunPlayFragmentListenerA {
+        void sendData(String firstName, String secondName);
+    }
+
     onFunPlayFragmentListener onFunPlayFragmentListener;
+    onFunPlayFragmentListenerA onFunPlayFragmentListenerA;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
             onFunPlayFragmentListener = (FunPlayFragment.onFunPlayFragmentListener) context;
+            onFunPlayFragmentListenerA = (FunPlayFragment.onFunPlayFragmentListenerA) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement onSomeEventListener");
         }
@@ -51,10 +59,12 @@ public class FunPlayFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fun_play_fragment, container, false);
+        final View rootView = inflater.inflate(R.layout.fun_play_fragment, container, false);
         mImageView = rootView.findViewById(R.id.image_view);
         mCaptureBtn = rootView.findViewById(R.id.button_capture);
         mPlayBtn = rootView.findViewById(R.id.button_play);
+        mFirstPlayerName = rootView.findViewById(R.id.player1_name);
+        mSecondPlayerName = rootView.findViewById(R.id.player2_name);
         mDatabaseHelper = new DataBaseHelper(getActivity());
         mCaptureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +91,7 @@ public class FunPlayFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 onFunPlayFragmentListener.loadDialogPlayFragment();
+                onFunPlayFragmentListenerA.sendData(mFirstPlayerName.getText().toString(), mSecondPlayerName.getText().toString());
             }
         });
         return rootView;
@@ -114,7 +125,6 @@ public class FunPlayFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println(mImageUri);
         AddData(mImageUri.toString());
         mImageView.setImageURI(mImageUri);
     }

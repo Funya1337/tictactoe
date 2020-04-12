@@ -1,4 +1,4 @@
-package com.example.myapplication.Components;
+package com.example.myapplication.Fragments;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -33,6 +33,8 @@ public class CameraPlayFragment extends Fragment {
     private String preLastEl;
     private boolean checkerInFragment;
 
+    private int checkForWinnerFragment = 1;
+
     final Board newBoard = new Board();
 
     private void nextTurnForBoard() {
@@ -45,7 +47,7 @@ public class CameraPlayFragment extends Fragment {
     }
 
     public interface onCameraPlayFragmentListener {
-        void loadWinnerDialogFragment(ElState winnerCheckVar);
+        void loadWinnerDialogFragment(ElState winnerCheckVar, int checkForWinnerFragment);
     }
 
     CameraPlayFragment.onCameraPlayFragmentListener onCameraPlayFragmentListener;
@@ -102,17 +104,17 @@ public class CameraPlayFragment extends Fragment {
                         if (newBoard.checkForWinner() == ElState.X) {
                             winnerCheckVar = ElState.X;
                             System.out.println(winnerCheckVar + " IS WINNER");
-                            onCameraPlayFragmentListener.loadWinnerDialogFragment(winnerCheckVar);
+                            onCameraPlayFragmentListener.loadWinnerDialogFragment(winnerCheckVar, checkForWinnerFragment);
                         }
                         if (newBoard.checkForWinner() == ElState.O) {
                             winnerCheckVar = ElState.O;
                             System.out.println(winnerCheckVar + " IS WINNER");
-                            onCameraPlayFragmentListener.loadWinnerDialogFragment(winnerCheckVar);
+                            onCameraPlayFragmentListener.loadWinnerDialogFragment(winnerCheckVar, checkForWinnerFragment);
                         }
                         if (newBoard.checkForWinner() == ElState.N) {
                             winnerCheckVar = ElState.N;
                             System.out.println(winnerCheckVar + " IS WINNER");
-                            onCameraPlayFragmentListener.loadWinnerDialogFragment(winnerCheckVar);
+                            onCameraPlayFragmentListener.loadWinnerDialogFragment(winnerCheckVar, checkForWinnerFragment);
                         }
                         Picasso.get()
                                 .load(Uri.parse(getTurnImage()))
