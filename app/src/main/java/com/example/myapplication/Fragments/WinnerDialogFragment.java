@@ -53,13 +53,6 @@ public class WinnerDialogFragment extends androidx.fragment.app.DialogFragment {
         {
             winnerText.setText("NO WIN");
         }
-//        Button dismiss = rootView.findViewById(R.id.apply);
-//        dismiss.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dismiss();
-//            }
-//        });
         return rootView;
     }
     public void updateData(ElState newData) {

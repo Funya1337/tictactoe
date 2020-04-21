@@ -10,20 +10,30 @@
     <ImageView
         android:id="@+id/image_view"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="250dp"
         android:src="@drawable/ic_image_black_24dp" />
 
-    <EditText
-        android:id="@+id/player1_name"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="First player name" />
+        app:boxBackgroundColor="@color/cardview_light_background">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/player1_name"
+            android:hint="First player name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/player2_name"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Second player name" />
+        app:boxBackgroundColor="@color/cardview_light_background">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/player2_name"
+            android:hint="Second player name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/button_capture"

@@ -90,8 +90,11 @@ public class FunPlayFragment extends Fragment {
         mPlayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mFirstPlayerName.getText().toString().matches("") && mFirstPlayerName.getText().toString().matches(""))
+                    onFunPlayFragmentListenerA.sendData("Player1", "Player2");
+                else
+                    onFunPlayFragmentListenerA.sendData(mFirstPlayerName.getText().toString(), mSecondPlayerName.getText().toString());
                 onFunPlayFragmentListener.loadDialogPlayFragment();
-                onFunPlayFragmentListenerA.sendData(mFirstPlayerName.getText().toString(), mSecondPlayerName.getText().toString());
             }
         });
         return rootView;
@@ -125,8 +128,12 @@ public class FunPlayFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        AddData(mImageUri.toString());
-        mImageView.setImageURI(mImageUri);
+        if (data != null) {
+            AddData(mImageUri.toString());
+            mImageView.setImageURI(mImageUri);
+        } else {
+            toastMessage("YOU NOT TAKE PHOTO");
+        }
     }
     public void AddData(String newEntry) {
         boolean insertData = mDatabaseHelper.addData(newEntry);
