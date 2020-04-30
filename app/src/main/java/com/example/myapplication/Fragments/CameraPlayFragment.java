@@ -97,7 +97,7 @@ public class CameraPlayFragment extends Fragment {
                 final ImageView imageView = rootView.findViewById(getResources().getIdentifier(buttonId, "id", getActivity().getPackageName()));
                 imageView.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        Animation animationUtils = AnimationUtils.loadAnimation(getContext(), R.anim.shake_animation);
+                        Animation animationUtils = AnimationUtils.loadAnimation(getContext(), R.anim.fadein);
                         imageView.startAnimation(animationUtils);
                         newBoard.setElement(indexI, indexJ, turn);
                         newBoard.print();

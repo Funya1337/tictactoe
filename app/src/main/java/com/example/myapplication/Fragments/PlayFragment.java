@@ -74,7 +74,7 @@ public class PlayFragment extends Fragment {
                 final Button button = view.findViewById(getResources().getIdentifier(buttonId, "id", getActivity().getPackageName()));
                 button.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        Animation animationUtils = AnimationUtils.loadAnimation(getContext(), R.anim.shake_animation);
+                        Animation animationUtils = AnimationUtils.loadAnimation(getContext(), R.anim.fadein);
                         button.startAnimation(animationUtils);
                         newBoard.setElement(indexI, indexJ, turn);
                         newBoard.print();

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -14,6 +15,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.myapplication.Fragments.CreateRoomFragment;
+import com.example.myapplication.Fragments.MultiPlayerFragment;
 import com.example.myapplication.Model.ElState;
 import com.example.myapplication.Fragments.BuildLevelFragment;
 import com.example.myapplication.Fragments.CameraDialogFragment;
@@ -22,13 +25,17 @@ import com.example.myapplication.Fragments.DialogFragment;
 import com.example.myapplication.Fragments.FunPlayFragment;
 import com.example.myapplication.Fragments.MainMenuFragment;
 import com.example.myapplication.Fragments.PlayFragment;
-import com.example.myapplication.Fragments.PlayWithBotFragment;
 import com.example.myapplication.Fragments.WinnerDialogFragment;
 import com.example.myapplication.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity implements DialogFragment.FragmentAListener, PlayFragment.FragmentBListener, PlayFragment.FragmentPlayListener, WinnerDialogFragment.WinnerDialogFragmentListener, FunPlayFragment.onFunPlayFragmentListener, CameraDialogFragment.onCameraDialogFragmentListener, CameraPlayFragment.onCameraPlayFragmentListener, FunPlayFragment.onFunPlayFragmentListenerA{
+public class MainActivity extends AppCompatActivity implements DialogFragment.FragmentAListener,
+        PlayFragment.FragmentBListener, PlayFragment.FragmentPlayListener,
+        WinnerDialogFragment.WinnerDialogFragmentListener, FunPlayFragment.onFunPlayFragmentListener,
+        CameraDialogFragment.onCameraDialogFragmentListener, CameraPlayFragment.onCameraPlayFragmentListener,
+        FunPlayFragment.onFunPlayFragmentListenerA, MultiPlayerFragment.onMultiPlayerFragmentListener{
     private DialogFragment dialogFragment;
+    private CreateRoomFragment createRoomFragment;
     private PlayFragment playFragment;
     private CameraPlayFragment cameraPlayFragment;
     private CameraDialogFragment cameraDialogFragment;
@@ -117,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
                             transactionFunction(selectedFragment);
                             break;
                         case R.id.navigation_botPlay:
-                            selectedFragment = new PlayWithBotFragment();
+                            selectedFragment = new MultiPlayerFragment();
                             transactionFunction(selectedFragment);
                             break;
                         case R.id.navigation_funPlay:
@@ -217,5 +224,14 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
     public void sendData(String firstName, String secondName) {
         assignFirstName(firstName);
         assignSecondName(secondName);
+    }
+
+    @Override
+    public void loadCreateRoomFragment() {
+        createRoomFragment = new CreateRoomFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_container, createRoomFragment)
+                .commit();
     }
 }
