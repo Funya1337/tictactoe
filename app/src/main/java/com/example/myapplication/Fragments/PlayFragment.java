@@ -20,7 +20,7 @@ import com.example.myapplication.Model.ElState;
 import com.example.myapplication.R;
 
 public class PlayFragment extends Fragment {
-    ElState turn = ElState.X;
+    private ElState turn = ElState.X;
     private FragmentPlayListener playListener;
     private FragmentBListener listener;
     private ElState firstPlayer = ElState.E;

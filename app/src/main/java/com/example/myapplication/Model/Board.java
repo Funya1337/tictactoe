@@ -138,4 +138,8 @@ public class Board {
         }
         System.out.println("--- BOARD END ---");
     }
+    public ElState[][] getBoard()
+    {
+        return board;
+    }
 }
