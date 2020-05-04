@@ -1,5 +1,7 @@
 package com.example.myapplication.Model;
 
+import com.example.myapplication.Activities.GameActivity;
+
 import java.util.Arrays;
 
 public class Board {
@@ -41,6 +43,10 @@ public class Board {
             }
         }
         return ElState.E;
+    }
+
+    public void updateBoard(ClassForJsonObject obj) {
+        board = obj.board;
     }
 
     public ElState checkColForWin() {

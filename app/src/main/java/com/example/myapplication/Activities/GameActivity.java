@@ -2,38 +2,29 @@ package com.example.myapplication.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.myapplication.Fragments.DialogFragment;
-import com.example.myapplication.Fragments.MultiPlayerFragment;
-import com.example.myapplication.Fragments.PlayFragment;
 import com.example.myapplication.Model.Board;
+import com.example.myapplication.Model.ClassForJsonObject;
 import com.example.myapplication.Model.ElState;
 import com.example.myapplication.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EventListener;
-import java.util.HashMap;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -51,10 +42,10 @@ public class GameActivity extends AppCompatActivity {
     DatabaseReference messageRef;
     DatabaseReference boardRef;
     DatabaseReference dataRef;
+    boolean checker;
 
     final Board newBoard = new Board();
     Gson gson = new Gson();
-
 
     private void nextTurn() {
         turn = turn == ElState.X ? ElState.O : ElState.X;
@@ -99,13 +90,10 @@ public class GameActivity extends AppCompatActivity {
                             System.out.println(winnerCheckVar);
                         }
                         button.setText(getTurnText());
-                        nextTurn();
-                        sendBoard();
                         v.setClickable(false);
                         v.setEnabled(false);
+                        sendBoard();
                         setEnabled(false);
-                        message = role + ":Poked!";
-                        messageRef.setValue(message);
                     }
                 });
             }
@@ -120,31 +108,23 @@ public class GameActivity extends AppCompatActivity {
             roomName = extras.getString("roomName");
             if (roomName.equals(playerName)) {
                 role = "host";
+                System.out.println("THIS IS HOST DEVICE");
             } else {
                 role = "guest";
+                System.out.println("THIS IS GUEST DEVICE");
             }
         }
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // send message
-                button.setEnabled(false);
-                message = role + ":Poked!";
-                messageRef.setValue(message);
-            }
-        });
-        // listen for incoming messages
-        messageRef = database.getReference("rooms/" + roomName + "/message");
-        message = role + ":Poked!";
-        messageRef.setValue(message);
-        addRoomEventListener();
+        boardRef = database.getReference("rooms/" + roomName + "/data");
+        ClassForJsonObject classForJsonObject = new ClassForJsonObject(role, newBoard.getBoard());
+        String json = gson.toJson(classForJsonObject);
+        boardRef.setValue(json);
+        getBoardEventListener();
     }
 
     private void sendBoard()
     {
-        String json = gson.toJson(newBoard.getBoard());
-        boardRef = database.getReference("rooms/" + roomName + "/board");
+        ClassForJsonObject classForJsonObject = new ClassForJsonObject(role, newBoard.getBoard());
+        String json = gson.toJson(classForJsonObject);
         boardRef.setValue(json);
     }
 
@@ -161,34 +141,43 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private void addRoomEventListener() {
-        messageRef.addValueEventListener(new ValueEventListener() {
+    public void updateUI(ElState[][] board) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                if (board[i][j] != ElState.E) {
+                    String buttonId = "button_" + i + "_" + j;
+                    final Button button = findViewById(getResources().getIdentifier(buttonId, "id", GameActivity.this.getPackageName()));
+                    button.setText(board[i][j].toString());
+                    button.setEnabled(false);
+                }
+            }
+        }
+    }
+
+    private void getBoardEventListener() {
+        boardRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // message received
+                ClassForJsonObject obj = gson.fromJson(dataSnapshot.getValue(String.class), ClassForJsonObject.class);
                 if (role.equals("host")) {
-                    System.out.println(dataSnapshot);
-                    if (dataSnapshot.getValue(String.class).contains("guest:")) {
+                    if (obj.role.equals("guest")) {
                         setEnabled(true);
-                        System.out.println("datasnapshot " + dataSnapshot);
-                        button.setEnabled(true);
-                        Toast.makeText(GameActivity.this, message, Toast.LENGTH_SHORT).show();
+                        nextTurn();
+                        newBoard.updateBoard(obj);
+                        updateUI(newBoard.getBoard());
                     }
                 } else {
-                    System.out.println(dataSnapshot);
-                    if (dataSnapshot.getValue(String.class).contains("host:")) {
+                    if (obj.role.equals("host")) {
                         setEnabled(true);
-                        System.out.println("datasnapshot " + dataSnapshot);
-                        button.setEnabled(true);
-                        Toast.makeText(GameActivity.this, message, Toast.LENGTH_SHORT).show();
+                        newBoard.updateBoard(obj);
+                        updateUI(newBoard.getBoard());
                     }
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // error - retry
-                messageRef.setValue(message);
+
             }
         });
     }
