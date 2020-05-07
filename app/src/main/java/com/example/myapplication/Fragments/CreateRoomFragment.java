@@ -117,7 +117,7 @@ public class CreateRoomFragment extends Fragment {
                 Iterable<DataSnapshot> rooms = dataSnapshot.getChildren();
                 for (DataSnapshot snapshot : rooms) {
                     roomsList.add(snapshot.getKey());
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, roomsList);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, roomsList);
                     listView.setAdapter(adapter);
                 }
             }

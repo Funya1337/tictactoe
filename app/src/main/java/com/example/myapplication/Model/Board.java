@@ -130,7 +130,7 @@ public class Board {
         if (checkColForWin() == ElState.O || checkRowsForWin() == ElState.O || checkDiagForWin() == ElState.O) {
             return ElState.O;
         }
-        if (checkBoardIsFull() == true && checkColForWin() != ElState.O && checkColForWin() != ElState.X && checkRowsForWin() != ElState.X && checkRowsForWin() != ElState.O
+        if (checkBoardIsFull() && checkColForWin() != ElState.O && checkColForWin() != ElState.X && checkRowsForWin() != ElState.X && checkRowsForWin() != ElState.O
         && checkDiagForWin() != ElState.O && checkDiagForWin() != ElState.X) {
             return ElState.N;
         }

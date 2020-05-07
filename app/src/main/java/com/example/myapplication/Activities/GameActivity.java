@@ -11,6 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.myapplication.Fragments.OnlineWinnerDialog;
 import com.example.myapplication.Model.Board;
 import com.example.myapplication.Model.ClassForJsonObject;
 import com.example.myapplication.Model.ElState;
@@ -21,35 +22,24 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class GameActivity extends AppCompatActivity {
 
     private ElState turn = ElState.X;
     private int checkForWinnerFragment = 0;
     ElState winnerCheckVar = ElState.E;
-    Button button;
 
     String playerName = "";
     String roomName = "";
     String role = "";
-    String message = "";
+
+    boolean checker = false;
 
     FirebaseDatabase database;
-    DatabaseReference messageRef;
     DatabaseReference boardRef;
-    DatabaseReference dataRef;
-    boolean checker;
 
     final Board newBoard = new Board();
     Gson gson = new Gson();
-
-    private void nextTurn() {
-        turn = turn == ElState.X ? ElState.O : ElState.X;
-    }
 
     private String getTurnText() {
         return turn == ElState.X ? "X" : "O";
@@ -60,8 +50,6 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        button = findViewById(R.id.button3);
-        button.setEnabled(false);
         setEnabled(false);
         database = FirebaseDatabase.getInstance();
 
@@ -79,14 +67,20 @@ public class GameActivity extends AppCompatActivity {
                         newBoard.print();
                         if (newBoard.checkForWinner() == ElState.X) {
                             winnerCheckVar = ElState.X;
+                            checker = true;
+                            checkForWinner(winnerCheckVar.toString());
                             System.out.println(winnerCheckVar);
                         }
                         if (newBoard.checkForWinner() == ElState.O) {
                             winnerCheckVar = ElState.O;
+                            checker = true;
+                            checkForWinner(winnerCheckVar.toString());
                             System.out.println(winnerCheckVar);
                         }
                         if (newBoard.checkForWinner() == ElState.N) {
                             winnerCheckVar = ElState.N;
+                            checker = true;
+                            checkForWinner(winnerCheckVar.toString());
                             System.out.println(winnerCheckVar);
                         }
                         button.setText(getTurnText());
@@ -94,6 +88,8 @@ public class GameActivity extends AppCompatActivity {
                         v.setEnabled(false);
                         sendBoard();
                         setEnabled(false);
+                        if (!checker)
+                            Toast.makeText(GameActivity.this, "Wait for opponent turn", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -108,14 +104,12 @@ public class GameActivity extends AppCompatActivity {
             roomName = extras.getString("roomName");
             if (roomName.equals(playerName)) {
                 role = "host";
-                System.out.println("THIS IS HOST DEVICE");
             } else {
                 role = "guest";
-                System.out.println("THIS IS GUEST DEVICE");
             }
         }
         boardRef = database.getReference("rooms/" + roomName + "/data");
-        ClassForJsonObject classForJsonObject = new ClassForJsonObject(role, newBoard.getBoard());
+        ClassForJsonObject classForJsonObject = new ClassForJsonObject(role, newBoard.getBoard(), winnerCheckVar);
         String json = gson.toJson(classForJsonObject);
         boardRef.setValue(json);
         getBoardEventListener();
@@ -123,9 +117,16 @@ public class GameActivity extends AppCompatActivity {
 
     private void sendBoard()
     {
-        ClassForJsonObject classForJsonObject = new ClassForJsonObject(role, newBoard.getBoard());
+        ClassForJsonObject classForJsonObject = new ClassForJsonObject(role, newBoard.getBoard(), winnerCheckVar);
         String json = gson.toJson(classForJsonObject);
         boardRef.setValue(json);
+    }
+
+    public void checkForWinner(String winner)
+    {
+        OnlineWinnerDialog onlineWinnerDialog = new OnlineWinnerDialog(winner);
+        onlineWinnerDialog.setCancelable(false);
+        onlineWinnerDialog.show(getSupportFragmentManager(), "example dialog");
     }
 
     private void setEnabled(boolean checker)
@@ -154,6 +155,18 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    public boolean getWinner(ElState winner)
+    {
+        if (winner != ElState.E)
+        {
+            OnlineWinnerDialog onlineWinnerDialog = new OnlineWinnerDialog(winner.toString());
+            onlineWinnerDialog.setCancelable(false);
+            onlineWinnerDialog.show(getSupportFragmentManager(), "example dialog");
+            return true;
+        } else {
+            return false;
+        }
+    }
     private void getBoardEventListener() {
         boardRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -162,15 +175,27 @@ public class GameActivity extends AppCompatActivity {
                 if (role.equals("host")) {
                     if (obj.role.equals("guest")) {
                         setEnabled(true);
-                        nextTurn();
+                        turn = ElState.O;
                         newBoard.updateBoard(obj);
                         updateUI(newBoard.getBoard());
+                        getWinner(obj.winner);
+                        if (getWinner(obj.winner)) {
+                            OnlineWinnerDialog onlineWinnerDialog = new OnlineWinnerDialog(obj.winner.toString());
+                            onlineWinnerDialog.setCancelable(false);
+                            onlineWinnerDialog.show(getSupportFragmentManager(), "example dialog");
+                        }
                     }
                 } else {
                     if (obj.role.equals("host")) {
                         setEnabled(true);
                         newBoard.updateBoard(obj);
                         updateUI(newBoard.getBoard());
+                        getWinner(obj.winner);
+                        if (getWinner(obj.winner)) {
+                            OnlineWinnerDialog onlineWinnerDialog = new OnlineWinnerDialog(obj.winner.toString());
+                            onlineWinnerDialog.setCancelable(false);
+                            onlineWinnerDialog.show(getSupportFragmentManager(), "example dialog");
+                        }
                     }
                 }
             }
