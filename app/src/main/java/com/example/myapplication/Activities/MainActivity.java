@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
-import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -17,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.Fragments.CreateRoomFragment;
 import com.example.myapplication.Fragments.MultiPlayerFragment;
+import com.example.myapplication.Fragments.WinnerDialogFragment;
 import com.example.myapplication.Model.ElState;
 import com.example.myapplication.Fragments.BuildLevelFragment;
 import com.example.myapplication.Fragments.CameraDialogFragment;
@@ -25,7 +25,6 @@ import com.example.myapplication.Fragments.DialogFragment;
 import com.example.myapplication.Fragments.FunPlayFragment;
 import com.example.myapplication.Fragments.MainMenuFragment;
 import com.example.myapplication.Fragments.PlayFragment;
-import com.example.myapplication.Fragments.WinnerDialogFragment;
 import com.example.myapplication.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -56,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new MainMenuFragment()).commit();
-
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sm.registerListener(sensorEventListener, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
 

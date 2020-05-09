@@ -3,6 +3,7 @@ package com.example.myapplication.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +12,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.myapplication.Fragments.OnlineWinnerDialog;
 import com.example.myapplication.Model.Board;
 import com.example.myapplication.Model.ClassForJsonObject;
 import com.example.myapplication.Model.ElState;
@@ -34,6 +34,7 @@ public class GameActivity extends AppCompatActivity {
     String role = "";
 
     boolean checker = false;
+    int checker1 = 0;
 
     FirebaseDatabase database;
     DatabaseReference boardRef;
@@ -51,7 +52,6 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         setEnabled(false);
-        database = FirebaseDatabase.getInstance();
 
         for (int i = 0; i < newBoard.boardSize; i++) {
             for (int j=0; j< newBoard.boardSize; j++) {
@@ -68,9 +68,10 @@ public class GameActivity extends AppCompatActivity {
                         if (newBoard.checkForWinner() == ElState.X) {
                             winnerCheckVar = ElState.X;
                             checker = true;
+                            System.out.println("1. guest x winner");
                             checkForWinner(winnerCheckVar.toString());
                             System.out.println(winnerCheckVar);
-                        }
+                         }
                         if (newBoard.checkForWinner() == ElState.O) {
                             winnerCheckVar = ElState.O;
                             checker = true;
@@ -86,7 +87,7 @@ public class GameActivity extends AppCompatActivity {
                         button.setText(getTurnText());
                         v.setClickable(false);
                         v.setEnabled(false);
-                        sendBoard();
+                        sendBoardToServer();
                         setEnabled(false);
                         if (!checker)
                             Toast.makeText(GameActivity.this, "Wait for opponent turn", Toast.LENGTH_SHORT).show();
@@ -112,21 +113,25 @@ public class GameActivity extends AppCompatActivity {
         ClassForJsonObject classForJsonObject = new ClassForJsonObject(role, newBoard.getBoard(), winnerCheckVar);
         String json = gson.toJson(classForJsonObject);
         boardRef.setValue(json);
-        getBoardEventListener();
+        setBoardEventListener();
     }
 
-    private void sendBoard()
+    private void sendBoardToServer()
     {
         ClassForJsonObject classForJsonObject = new ClassForJsonObject(role, newBoard.getBoard(), winnerCheckVar);
         String json = gson.toJson(classForJsonObject);
+        if (winnerCheckVar == ElState.X) {
+            System.out.println("2. send guest x winner");
+            System.out.println(json);
+        }
         boardRef.setValue(json);
     }
 
     public void checkForWinner(String winner)
     {
-        OnlineWinnerDialog onlineWinnerDialog = new OnlineWinnerDialog(winner);
-        onlineWinnerDialog.setCancelable(false);
-        onlineWinnerDialog.show(getSupportFragmentManager(), "example dialog");
+        Intent intent = new Intent(GameActivity.this, WinnerActivity.class);
+        intent.putExtra("winner", winner);
+        startActivity(intent);
     }
 
     private void setEnabled(boolean checker)
@@ -155,19 +160,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    public boolean getWinner(ElState winner)
-    {
-        if (winner != ElState.E)
-        {
-            OnlineWinnerDialog onlineWinnerDialog = new OnlineWinnerDialog(winner.toString());
-            onlineWinnerDialog.setCancelable(false);
-            onlineWinnerDialog.show(getSupportFragmentManager(), "example dialog");
-            return true;
-        } else {
-            return false;
-        }
-    }
-    private void getBoardEventListener() {
+    private void setBoardEventListener() {
         boardRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -178,11 +171,9 @@ public class GameActivity extends AppCompatActivity {
                         turn = ElState.O;
                         newBoard.updateBoard(obj);
                         updateUI(newBoard.getBoard());
-                        getWinner(obj.winner);
-                        if (getWinner(obj.winner)) {
-                            OnlineWinnerDialog onlineWinnerDialog = new OnlineWinnerDialog(obj.winner.toString());
-                            onlineWinnerDialog.setCancelable(false);
-                            onlineWinnerDialog.show(getSupportFragmentManager(), "example dialog");
+                        System.out.println("rendering fragment(guest) " + obj.winner);
+                        if (obj.winner != ElState.E) {
+                            checkForWinner(obj.winner.toString());
                         }
                     }
                 } else {
@@ -190,11 +181,9 @@ public class GameActivity extends AppCompatActivity {
                         setEnabled(true);
                         newBoard.updateBoard(obj);
                         updateUI(newBoard.getBoard());
-                        getWinner(obj.winner);
-                        if (getWinner(obj.winner)) {
-                            OnlineWinnerDialog onlineWinnerDialog = new OnlineWinnerDialog(obj.winner.toString());
-                            onlineWinnerDialog.setCancelable(false);
-                            onlineWinnerDialog.show(getSupportFragmentManager(), "example dialog");
+                        if (obj.winner != ElState.E) {
+                            System.out.println("rendering fragment(host)");
+                            checkForWinner(obj.winner.toString());
                         }
                     }
                 }
