@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.myapplication.Model.Board;
 import com.example.myapplication.Model.ElState;
 import com.example.myapplication.R;
+import com.example.myapplication.Repository.DataBaseHelper;
 
 public class PlayFragment extends Fragment {
     private ElState turn = ElState.X;
@@ -25,6 +26,7 @@ public class PlayFragment extends Fragment {
     private FragmentBListener listener;
     private ElState firstPlayer = ElState.E;
     private int checkForWinnerFragment = 0;
+    private DataBaseHelper mDatabaseHelper;
     ElState winnerCheckVar = ElState.E;
 
     public PlayFragment(ElState fp) {
@@ -65,6 +67,7 @@ public class PlayFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.play_fragment, container, false);
+        mDatabaseHelper = new DataBaseHelper(getActivity());
 
         for (int i = 0; i < newBoard.boardSize; i++) {
             for (int j=0; j< newBoard.boardSize; j++) {
@@ -80,16 +83,19 @@ public class PlayFragment extends Fragment {
                         newBoard.print();
                         if (newBoard.checkForWinner() == ElState.X) {
                             winnerCheckVar = ElState.X;
+                            mDatabaseHelper.addWinnerData("Cross win");
                             ElState input = winnerCheckVar;
                             playListener.onInputPlaySent(input, checkForWinnerFragment);
                         }
                         if (newBoard.checkForWinner() == ElState.O) {
                             winnerCheckVar = ElState.O;
+                            mDatabaseHelper.addWinnerData("Zero win");
                             ElState input = winnerCheckVar;
                             playListener.onInputPlaySent(input, checkForWinnerFragment);
                         }
                         if (newBoard.checkForWinner() == ElState.N) {
                             winnerCheckVar = ElState.N;
+                            mDatabaseHelper.addWinnerData("No win");
                             ElState input = winnerCheckVar;
                             playListener.onInputPlaySent(input, checkForWinnerFragment);
                         }

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.Fragments.CreateRoomFragment;
 import com.example.myapplication.Fragments.MultiPlayerFragment;
+import com.example.myapplication.Fragments.StatisticFragment;
 import com.example.myapplication.Fragments.WinnerDialogFragment;
 import com.example.myapplication.Model.ElState;
 import com.example.myapplication.Fragments.BuildLevelFragment;
@@ -33,10 +34,11 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
         PlayFragment.FragmentBListener, PlayFragment.FragmentPlayListener,
         WinnerDialogFragment.WinnerDialogFragmentListener, FunPlayFragment.onFunPlayFragmentListener,
         CameraDialogFragment.onCameraDialogFragmentListener, CameraPlayFragment.onCameraPlayFragmentListener,
-        FunPlayFragment.onFunPlayFragmentListenerA, MultiPlayerFragment.onMultiPlayerFragmentListener{
+        FunPlayFragment.onFunPlayFragmentListenerA, MultiPlayerFragment.onMultiPlayerFragmentListener, DialogFragment.LoadStatusFragmentListener{
     private DialogFragment dialogFragment;
     private CreateRoomFragment createRoomFragment;
     private PlayFragment playFragment;
+    private StatisticFragment statisticFragment;
     private CameraPlayFragment cameraPlayFragment;
     private CameraDialogFragment cameraDialogFragment;
     private ElState firstPlayer = ElState.E;
@@ -232,6 +234,15 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.frame_container, createRoomFragment)
+                .commit();
+    }
+
+    @Override
+    public void loadStatusFragment() {
+        statisticFragment = new StatisticFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_container, statisticFragment)
                 .commit();
     }
 }

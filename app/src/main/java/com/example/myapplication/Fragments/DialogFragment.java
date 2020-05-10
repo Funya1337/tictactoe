@@ -13,11 +13,16 @@ import com.example.myapplication.R;
 public class DialogFragment extends androidx.fragment.app.DialogFragment {
     public int checker = 10;
     private FragmentAListener listener;
+    private LoadStatusFragmentListener loadStatusFragmentListener;
     private Button playerButton1;
     private Button statusBtn;
 
     public interface FragmentAListener {
         void onInputASent(CharSequence input);
+    }
+
+    public interface LoadStatusFragmentListener {
+        void loadStatusFragment();
     }
 
     @Override
@@ -82,7 +87,7 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
         statusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                loadStatusFragmentListener.loadStatusFragment();
             }
         });
         return rootView;
@@ -95,6 +100,7 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
         super.onAttach(context);
         if (context instanceof FragmentAListener) {
             listener = (FragmentAListener) context;
+            loadStatusFragmentListener = (LoadStatusFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement fragmentAListener");
