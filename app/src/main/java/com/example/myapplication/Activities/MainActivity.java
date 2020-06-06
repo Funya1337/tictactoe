@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -17,10 +18,11 @@ import android.widget.Toast;
 
 import com.example.myapplication.Fragments.CreateRoomFragment;
 import com.example.myapplication.Fragments.MultiPlayerFragment;
+import com.example.myapplication.Fragments.Play3DFragment;
 import com.example.myapplication.Fragments.StatisticFragment;
 import com.example.myapplication.Fragments.WinnerDialogFragment;
 import com.example.myapplication.Model.ElState;
-import com.example.myapplication.Fragments.BuildLevelFragment;
+import com.example.myapplication.Fragments.ChartFragment;
 import com.example.myapplication.Fragments.CameraDialogFragment;
 import com.example.myapplication.Fragments.CameraPlayFragment;
 import com.example.myapplication.Fragments.DialogFragment;
@@ -29,18 +31,22 @@ import com.example.myapplication.Fragments.MainMenuFragment;
 import com.example.myapplication.Fragments.PlayFragment;
 import com.example.myapplication.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.scichart.charting.visuals.SciChartSurface;
+import com.scichart.extensions.builders.SciChartBuilder;
+import com.scichart.extensions3d.builders.SciChart3DBuilder;
 
 public class MainActivity extends AppCompatActivity implements DialogFragment.FragmentAListener,
         PlayFragment.FragmentBListener, PlayFragment.FragmentPlayListener,
         WinnerDialogFragment.WinnerDialogFragmentListener, FunPlayFragment.onFunPlayFragmentListener,
         CameraDialogFragment.onCameraDialogFragmentListener, CameraPlayFragment.onCameraPlayFragmentListener,
-        FunPlayFragment.onFunPlayFragmentListenerA, MultiPlayerFragment.onMultiPlayerFragmentListener, DialogFragment.LoadStatusFragmentListener{
+        FunPlayFragment.onFunPlayFragmentListenerA, MultiPlayerFragment.onMultiPlayerFragmentListener, DialogFragment.LoadStatusFragmentListener, DialogFragment.LoadPlay3DFragmentListener {
     private DialogFragment dialogFragment;
     private CreateRoomFragment createRoomFragment;
     private PlayFragment playFragment;
     private StatisticFragment statisticFragment;
     private CameraPlayFragment cameraPlayFragment;
     private CameraDialogFragment cameraDialogFragment;
+    private Play3DFragment play3DFragment;
     private ElState firstPlayer = ElState.E;
     private SensorManager sm;
     private boolean checker = false;
@@ -55,6 +61,13 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+        try {
+            SciChartSurface.setRuntimeLicenseKey("");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        SciChartBuilder.init(this);
+        SciChart3DBuilder.init(this);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -121,11 +134,11 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
                             selectedFragment = dialogFragment;
                             transactionFunction(selectedFragment);
                             break;
-                        case R.id.navigation_build:
-                            selectedFragment = new BuildLevelFragment();
+                        case R.id.navigation_chart:
+                            selectedFragment = new ChartFragment();
                             transactionFunction(selectedFragment);
                             break;
-                        case R.id.navigation_botPlay:
+                        case R.id.navigation_online:
                             selectedFragment = new MultiPlayerFragment();
                             transactionFunction(selectedFragment);
                             break;
@@ -243,6 +256,15 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.frame_container, statisticFragment)
+                .commit();
+    }
+
+    @Override
+    public void loadPlay3DFragment() {
+        play3DFragment = new Play3DFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_container, play3DFragment)
                 .commit();
     }
 }

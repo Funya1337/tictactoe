@@ -79,6 +79,7 @@ public class Board {
 
         for (int i = 0; i < board.length; i++) {
             int diag2 = (board.length - 1) - i;
+            System.out.println("DIAGONAL " + diag2);
             if (board[i][diag2] == ElState.X) {
                 winnerCounterCross += 1;
             }

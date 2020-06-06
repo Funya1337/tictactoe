@@ -73,26 +73,18 @@ public class CameraDialogFragment extends Fragment {
         lastEl = listData.get(listData.size() - 1);
         preLastEl = listData.get(listData.size() - 2);
         setImage1();
-        changeValuesBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checker = !checker;
-                if (checker)
-                {
-                    setImage2();
-                }
-                if (!checker)
-                {
-                    setImage1();
-                }
+        changeValuesBtn.setOnClickListener(v -> {
+            checker = !checker;
+            if (checker)
+            {
+                setImage2();
+            }
+            if (!checker)
+            {
+                setImage1();
             }
         });
-        playBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onFunPlayFragmentListener.loadCameraPlayFragment(checker);
-            }
-        });
+        playBtn.setOnClickListener(v -> onFunPlayFragmentListener.loadCameraPlayFragment(checker));
         return rootView;
     }
     public void setImage1()

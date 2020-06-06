@@ -58,6 +58,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Play" />
+
+    <Button
+        android:id="@+id/PlayBtn3D"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="3D Play" />
+
     <Button
         android:id="@+id/statusBtn"
         android:layout_width="match_parent"

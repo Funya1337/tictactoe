@@ -13,7 +13,6 @@ import com.example.myapplication.ChartData.ChartData;
 import com.example.myapplication.R;
 import com.example.myapplication.Repository.DataBaseHelper;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -23,7 +22,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
-public class BuildLevelFragment extends Fragment {
+public class ChartFragment extends Fragment {
     private BarChart barChart;
     private ArrayList<BarEntry> barEntryArrayList;
     private ArrayList<String> labelsNames;
@@ -34,7 +33,7 @@ public class BuildLevelFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.build_level_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.chart_fragment, container, false);
         mDatabaseHelper = new DataBaseHelper(getActivity());
         barChart = rootView.findViewById(R.id.barChart);
         barEntryArrayList = new ArrayList<>();

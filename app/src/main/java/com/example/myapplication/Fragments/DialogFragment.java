@@ -14,11 +14,17 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
     public int checker = 10;
     private FragmentAListener listener;
     private LoadStatusFragmentListener loadStatusFragmentListener;
+    private LoadPlay3DFragmentListener loadPlay3DFragmentListener;
     private Button playerButton1;
     private Button statusBtn;
+    private Button play3DBtn;
 
     public interface FragmentAListener {
         void onInputASent(CharSequence input);
+    }
+
+    public interface LoadPlay3DFragmentListener {
+        void loadPlay3DFragment();
     }
 
     public interface LoadStatusFragmentListener {
@@ -32,6 +38,7 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
         statusBtn = rootView.findViewById(R.id.statusBtn);
         final Button playerButton2 = rootView.findViewById(R.id.button_player2);
         final TextView warningText = rootView.findViewById(R.id.warning_text);
+        play3DBtn = rootView.findViewById(R.id.PlayBtn3D);
         Button dismiss = rootView.findViewById(R.id.apply);
         playerButton1.setText("Choose");
         playerButton2.setText("Choose");
@@ -84,6 +91,12 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
                 }
             }
         });
+        play3DBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadPlay3DFragmentListener.loadPlay3DFragment();
+            }
+        });
         statusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,6 +114,7 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
         if (context instanceof FragmentAListener) {
             listener = (FragmentAListener) context;
             loadStatusFragmentListener = (LoadStatusFragmentListener) context;
+            loadPlay3DFragmentListener = (LoadPlay3DFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement fragmentAListener");
