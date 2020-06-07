@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -14,6 +15,8 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.example.myapplication.Fragments.CreateRoomFragment;
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
     private boolean checker = false;
     private String name1;
     private String name2;
+    private Animation bottomAnimation;
 
     private float acelVal;
     private float acelLast;
@@ -69,7 +73,10 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
         SciChartBuilder.init(this);
         SciChart3DBuilder.init(this);
 
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomAnimation = AnimationUtils.loadAnimation(this, R.anim.bottom_animation);
+        bottomNav.setAnimation(bottomAnimation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new MainMenuFragment()).commit();
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -118,38 +125,31 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Fr
         }
     };
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment selectedFragment = null;
-                    switch (item.getItemId()) {
-                        case R.id.navigation_main:
-                            selectedFragment = new MainMenuFragment();
-                            transactionFunction(selectedFragment);
-                            break;
-                        case R.id.navigation_play:
-                            FragmentManager fm = getSupportFragmentManager();
-                            DialogFragment dialogFragment = new DialogFragment();
-                            dialogFragment.show(fm, "Sample Fragment");
-                            selectedFragment = dialogFragment;
-                            transactionFunction(selectedFragment);
-                            break;
-                        case R.id.navigation_chart:
-                            selectedFragment = new ChartFragment();
-                            transactionFunction(selectedFragment);
-                            break;
-                        case R.id.navigation_online:
-                            selectedFragment = new MultiPlayerFragment();
-                            transactionFunction(selectedFragment);
-                            break;
-                        case R.id.navigation_funPlay:
-                            checker = true;
-                            selectedFragment = new FunPlayFragment();
-                            transactionFunction(selectedFragment);
-                            break;
-                    }
-                return true;
+            item -> {
+                Fragment selectedFragment = null;
+                switch (item.getItemId()) {
+                    case R.id.navigation_play:
+                        FragmentManager fm = getSupportFragmentManager();
+                        DialogFragment dialogFragment = new DialogFragment();
+                        dialogFragment.show(fm, "Sample Fragment");
+                        selectedFragment = dialogFragment;
+                        transactionFunction(selectedFragment);
+                        break;
+                    case R.id.navigation_chart:
+                        selectedFragment = new ChartFragment();
+                        transactionFunction(selectedFragment);
+                        break;
+                    case R.id.navigation_online:
+                        selectedFragment = new MultiPlayerFragment();
+                        transactionFunction(selectedFragment);
+                        break;
+                    case R.id.navigation_funPlay:
+                        checker = true;
+                        selectedFragment = new FunPlayFragment();
+                        transactionFunction(selectedFragment);
+                        break;
                 }
+            return true;
             };
 
     @Override

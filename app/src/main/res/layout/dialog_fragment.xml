@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -32,15 +33,17 @@
     <GridLayout
         android:layout_height="wrap_content"
         android:layout_width="wrap_content">
+
         <Button
             android:id="@+id/button_player1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
             android:layout_centerVertical="true"
-            android:text="Choose" />
+            android:layout_marginRight="20dp"
+            android:text="Choose"
+            app:backgroundTint="#EC058E" />
 
         <Button
             android:id="@+id/button_player2"
@@ -48,16 +51,18 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginLeft="20dp"
             android:layout_centerVertical="true"
-            android:text="Choose" />
+            android:layout_marginLeft="20dp"
+            android:text="Choose"
+            app:backgroundTint="#EC058E" />
     </GridLayout>
 
     <Button
         android:id="@+id/apply"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Play" />
+        android:text="Play"
+        app:backgroundTint="@color/colorPrimary" />
 
     <Button
         android:id="@+id/PlayBtn3D"

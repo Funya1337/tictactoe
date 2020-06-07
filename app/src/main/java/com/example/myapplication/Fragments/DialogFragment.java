@@ -1,6 +1,7 @@
 package com.example.myapplication.Fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,67 +43,52 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
         Button dismiss = rootView.findViewById(R.id.apply);
         playerButton1.setText("Choose");
         playerButton2.setText("Choose");
-        dismiss.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (playerButton1.getText() == "Choose" && playerButton2.getText() == "Choose")
-                {
-                    warningText.setText("Please fill the fields");
-                }
-                else
-                {
-                    CharSequence input = playerButton1.getText();
-                    listener.onInputASent(input);
-                    dismiss();
-                }
+        dismiss.setOnClickListener(v -> {
+            if (playerButton1.getText() == "Choose" && playerButton2.getText() == "Choose")
+            {
+                warningText.setText("Please fill the fields");
+            }
+            else
+            {
+                CharSequence input = playerButton1.getText();
+                listener.onInputASent(input);
+                dismiss();
             }
         });
-        playerButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (playerButton1.getText() != "X" && playerButton2.getText() != "X")
-                {
-                    playerButton1.setText("X" + "");
-                    checker = 1;
-                    playerButton2.setText("0" + "");
-                }
-                if (playerButton1.getText() == "X" && playerButton2.getText() == "0")
-                {
-                    playerButton1.setText("0" + "");
-                    checker = 0;
-                    playerButton2.setText("X" + "");
-                }
+        playerButton1.setOnClickListener(v -> {
+            playerButton1.setBackgroundColor(Color.parseColor("#6200EE"));
+            playerButton2.setBackgroundColor(Color.parseColor("#6200EE"));
+            if (playerButton1.getText() != "X" && playerButton2.getText() != "X")
+            {
+                playerButton1.setText("X" + "");
+                checker = 1;
+                playerButton2.setText("0" + "");
+            }
+            if (playerButton1.getText() == "X" && playerButton2.getText() == "0")
+            {
+                playerButton1.setText("0" + "");
+                checker = 0;
+                playerButton2.setText("X" + "");
             }
         });
-        playerButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (playerButton1.getText() != "X" && playerButton2.getText() != "X")
-                {
-                    playerButton1.setText("0" + "");
-                    checker = 0;
-                    playerButton2.setText("X" + "");
-                }
-                if (playerButton1.getText() == "0" && playerButton2.getText() == "X")
-                {
-                    playerButton1.setText("X" + "");
-                    checker = 1;
-                    playerButton2.setText("0" + "");
-                }
+        playerButton2.setOnClickListener(v -> {
+            playerButton1.setBackgroundColor(Color.parseColor("#6200EE"));
+            playerButton2.setBackgroundColor(Color.parseColor("#6200EE"));
+            if (playerButton1.getText() != "X" && playerButton2.getText() != "X")
+            {
+                playerButton1.setText("0" + "");
+                checker = 0;
+                playerButton2.setText("X" + "");
+            }
+            if (playerButton1.getText() == "0" && playerButton2.getText() == "X")
+            {
+                playerButton1.setText("X" + "");
+                checker = 1;
+                playerButton2.setText("0" + "");
             }
         });
-        play3DBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadPlay3DFragmentListener.loadPlay3DFragment();
-            }
-        });
-        statusBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadStatusFragmentListener.loadStatusFragment();
-            }
-        });
+        play3DBtn.setOnClickListener(v -> loadPlay3DFragmentListener.loadPlay3DFragment());
+        statusBtn.setOnClickListener(v -> loadStatusFragmentListener.loadStatusFragment());
         return rootView;
     }
     public void updateEditText(CharSequence newText) {
